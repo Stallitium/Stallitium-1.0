@@ -1,0 +1,12 @@
+name: Astrellipse
+main: stellontium.stallitium.Main
+version: '${project.version}'
+api-version: "1.21.4"
+commands:
+  as:
+  atm:
+  cmob:
+  dlb:
+  gate:
+  worldc:
+  tp:
