@@ -4,7 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -21,7 +25,7 @@ import stallitium.Utl.U;
 
 import java.util.Arrays;
 
-public class CropsManager implements Listener {
+public class CropsManager implements Listener, CommandExecutor {
     public static boolean plantC = false;
     public static ItemStack edamame;
     public CropsManager(JavaPlugin plugin) {
@@ -29,6 +33,37 @@ public class CropsManager implements Listener {
 
         createEdamame();
 
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equals("cm")) {
+            if (!sender.isOp()) {
+                return true;
+            }
+            Player p = (Player) sender;
+            ItemStack stick = new ItemStack(Material.STICK);
+            if (args.length == 0) {
+                sender.sendMessage("/cm <成長値> ");
+                U.addItem(p,stick);
+                return true;
+            }
+            //数字に応じてアイテムを与える
+            int age = 0;
+            try {
+                age = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                sender.sendMessage("数字を入力してください");
+                return true;
+            }
+            ItemMeta stickMeta = stick.getItemMeta();
+            stickMeta.setDisplayName(args[0]);
+            stick.setItemMeta(stickMeta);
+            U.addItem(p,stick);
+            sender.sendMessage("成長値を"+age+"に設定する棒です右クリックして使用してください");
+            return true;
+        }
+        return true;
     }
 
     @EventHandler
@@ -93,10 +128,31 @@ public class CropsManager implements Listener {
                         return;
                     }
                     if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.STICK) {
+                        ItemStack stick = e.getPlayer().getInventory().getItemInMainHand();
                         Ageable ageable = (Ageable) e.getClickedBlock().getBlockData();
+                        //成長値指定タイプの場合
+                        if (stick.hasItemMeta()) {
+                            if (stick.getItemMeta().hasDisplayName()) {
+                                int ag = 0;
+                                try {
+                                    ag = Integer.parseInt(stick.getItemMeta().getDisplayName());
+                                } catch (NumberFormatException exception) {
+                                    return;
+                                }
+                                try {
+                                    ageable.setAge(ag);
+                                    e.getClickedBlock().setBlockData(ageable);
+                                    e.getPlayer().sendMessage("成長値を"+ag+"にしました");
+                                } catch (IllegalArgumentException exception) {
+                                    e.getPlayer().sendMessage("成長値の範囲外の値です");
+                                }
+                                return;
+                            }
+                        }
                         ageable.setAge(ageable.getMaximumAge()-1);
                         e.getClickedBlock().setBlockData(ageable);
                         e.getPlayer().sendMessage("成長を最大値-1にしました");
+                        return;
                     }
                 }
             }

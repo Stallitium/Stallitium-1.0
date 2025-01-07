@@ -50,7 +50,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginCommand("worldc").setExecutor(worldControl);
         Bukkit.getPluginCommand("tp").setExecutor(worldControl);
         //作物
-        new CropsManager(this);
+        Bukkit.getPluginCommand("cm").setExecutor(new CropsManager(this));
         CropsManager.plantC = config.getBoolean("power.PlantCrops",false);
 
 
