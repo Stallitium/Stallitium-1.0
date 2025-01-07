@@ -1,5 +1,5 @@
 name: Astrellipse
-main: stellontium.stallitium.Main
+main: stallitium.Main
 version: '${project.version}'
 api-version: "1.21.4"
 commands:
