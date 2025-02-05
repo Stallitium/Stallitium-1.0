@@ -80,8 +80,8 @@ public class CropsManager implements Listener, CommandExecutor {
                         e.setCancelled(true);
                         block.setType(cType);
                         block.getWorld().dropItemNaturally(block.getLocation(),edamame);
+                        return;
                     }
-                    return;
                 }
                 e.setCancelled(true);
                 //自然な破壊

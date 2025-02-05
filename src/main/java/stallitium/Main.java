@@ -1,5 +1,6 @@
 package stallitium;
 
+import stallitium.BowBreakDamage.BowBreakDamage;
 import stallitium.CropsManager.CropsManager;
 import stallitium.CustomMob.ActionTimer;
 import stallitium.Bank.Bank;
@@ -52,6 +53,8 @@ public class Main extends JavaPlugin {
         //作物
         Bukkit.getPluginCommand("cm").setExecutor(new CropsManager(this));
         CropsManager.plantC = config.getBoolean("power.PlantCrops",false);
+        //弓破壊ダメージ
+        Bukkit.getPluginCommand("bbd").setExecutor(new BowBreakDamage(this));
 
 
 
@@ -61,6 +64,8 @@ public class Main extends JavaPlugin {
         CustomMob.cMob = config.getBoolean("power.customMob",false);
         //デイリーログインボーナス可
         DailyLoginBonus.dailyLB = config.getBoolean("power.dlb");
+        //弓破壊ダメージ
+        BowBreakDamage.bowBreakDamage = config.getBoolean("power.bowBreakDamage",false);
 
         //全てが終わったらタイマ起動再起動保持なし
         new ActionTimer(this,customMob).runTaskTimer(this,20,20);

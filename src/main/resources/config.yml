@@ -3,6 +3,7 @@ power:
   customMob: true
   dlb: true
   PlantCrops: true
+  bowBreakDamage: false
 CustomMob:
   test:
     spawn: world/10/70/10

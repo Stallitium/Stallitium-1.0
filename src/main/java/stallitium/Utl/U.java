@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Random;
 
 public class U {
     //アイテム渡す
@@ -39,4 +40,7 @@ public class U {
         item.setItemMeta(meta);
         return item;
     }
+
+    //ランダム
+    public static Random random = new Random();
 }
