@@ -23,14 +23,16 @@ public class BowBreakDamage implements Listener, CommandExecutor {
 
     @EventHandler
     public void damage(PlayerItemBreakEvent event) {
-        ItemStack item = event.getBrokenItem();
-        Player player = event.getPlayer();
-        //弓であるか
-        if (item.getType() == Material.BOW) {
-            //1/2の確率で痛い
-            if (U.random.nextBoolean()) {
-                player.sendMessage("痛いっ！弓の糸が当たった！");
-                player.damage(2);
+        if (bowBreakDamage) {
+            ItemStack item = event.getBrokenItem();
+            Player player = event.getPlayer();
+            //弓であるか
+            if (item.getType() == Material.BOW) {
+                //1/2の確率で痛い
+                if (U.random.nextBoolean()) {
+                    player.sendMessage("痛いっ！弓の糸が当たった！");
+                    player.damage(2);
+                }
             }
         }
     }
